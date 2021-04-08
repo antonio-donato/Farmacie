@@ -24,8 +24,7 @@ for farm in farmacia.readlines():
             trovato = False
             for x in tipologia.items():
                 if x[0].upper() == elementi[index][16].upper():
-                    aggiungi = tipologia[f"{x[0].upper()}"] + 1
-                    tipologia.update({x[0].upper(): aggiungi})
+                    tipologia[f"{x[0].upper()}"] += 1
                     trovato = True
                     break
             if trovato == False:
