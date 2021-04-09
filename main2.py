@@ -1,3 +1,4 @@
+from datetime import datetime
 
 farmacia = open("farmacie.CSV", "r", encoding = "ISO-8859-1")
 
@@ -12,7 +13,16 @@ elementi = []
 farmacie_effettive = []
 tipologia = {}
 index = 0
-quella_precedente = ""
+
+
+datetime.strptime("01/01/2021", "%d/%m/%Y")
+
+#  inizializzo la list vuota con numero di campi max in modo da non dover testare il primo elemento
+quella_precedente = []
+for x in range((len(campi) + 1)):
+    quella_precedente.append("")
+
+conta = 0
 for farm in farmacia.readlines():
     provvisoria = farm.split(";")
 
@@ -22,18 +32,32 @@ for farm in farmacia.readlines():
     if provvisoria[16].upper() in {"-", "01/04/2021", "LOMBARDIA"}:
         provvisoria[16] = "*****"
 
-    if provvisoria[2].upper() != quella_precedente:
-        farmacie_effettive.append(provvisoria)
-        quella_precedente = provvisoria[2].upper()
-
-    if len(tipologia) == 0:
-       tipologia[provvisoria[16].upper()] = 1
-    else:
-        elemento_tipologia = [item for item in tipologia.items() if item[0].upper() == provvisoria[16].upper()]
-        if len(elemento_tipologia) == 0:
-            tipologia[provvisoria[16].upper()] = 1
+    # Mantengo soltanto le farmacie che hanno
+    if quella_precedente[2].upper() != provvisoria[2]:
+        if len(farmacie_effettive) == 0:
+            conta += 1
+            farmacie_effettive.append(provvisoria)
         else:
-            tipologia[f"{provvisoria[16].upper()}"] += 1
+            try:
+                d1 = datetime.strptime(quella_precedente[14], "%d/%m/%Y")
+                d2 = datetime.strptime(provvisoria[14], "%d/%m/%Y")
+                if d2 > d1:
+                    conta += 1
+                    farmacie_effettive.append(provvisoria)
+                    # print("{0:>5} ".format(conta) + f"Date: {d2} - {d1}")
+            except:
+                pass
+        quella_precedente = provvisoria
+
+for farm in farmacie_effettive:
+    if len(tipologia) == 0:
+       tipologia[farm[16].upper()] = 1
+    else:
+        elemento_tipologia = [item for item in tipologia.items() if item[0].upper() == farm[16].upper()]
+        if len(elemento_tipologia) == 0:
+            tipologia[farm[16].upper()] = 1
+        else:
+            tipologia[f"{farm[16].upper()}"] += 1
 
 print(f"Farmacie Effettive: {len(farmacie_effettive)}\n" + "="*40 + "\n")
 
