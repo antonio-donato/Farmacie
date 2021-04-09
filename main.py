@@ -20,19 +20,15 @@ for farm in farmacia.readlines():
         quella_precedente = elementi[index][2]
         numero_farmacie += 1
 
+        trovato = False
         if len(tipologia) != 0:
-            trovato = False
             for x in tipologia.items():
                 if x[0].upper() == elementi[index][16].upper():
-                    aggiungi = tipologia[f"{x[0].upper()}"] + 1
-                    tipologia.update({x[0].upper(): aggiungi})
+                    tipologia[f"{x[0].upper()}"] += 1
                     trovato = True
                     break
-            if trovato == False:
-                tipologia[elementi[index][16].upper()] = 1
-        else:
-            tipologia[elementi[index][16].upper()] = 1
-
+        if trovato == False:
+           tipologia[elementi[index][16].upper()] = 1
 
         # print(f"Elemento numero {elementi[index][0]}\n"
         #       f"Denominazione: {elementi[index][3]}\n"
