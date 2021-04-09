@@ -28,10 +28,8 @@ for farm in farmacia.readlines():
         else:
             tipologia[f"{provvisoria[16].upper()}"] += 1
 
-print(len(farmacie_effettive))
-[(print(x + " - " + tipologia[x])) for x in tipologia.keys()]
-print(tipologia)
-
+print(f"Farmacie Effettive: {len(farmacie_effettive)}\n")
+[(print(x + " - " + str(tipologia[x]))) for x in tipologia.keys()]
 
 
 farmacia.close()
