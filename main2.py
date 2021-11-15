@@ -49,6 +49,8 @@ for farm in farmacia.readlines():
                 pass
         quella_precedente = provvisoria
 
+farmacia.close()
+
 for farm in farmacie_effettive:
     if len(tipologia) == 0:
        tipologia[farm[16].upper()] = 1
@@ -71,4 +73,3 @@ print("-"*40)
 #  Centratura di Tipologia e conteggio
 [(print("{0:^40}".format(f"{x} - {tipologia[x]}"))) for x in tipologia.keys()]
 
-farmacia.close()
